@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
+
+:root {
+  --bg-color: #f3f4f6;
+  --panel-bg: #ffffff;
+  --header-blue: #00b0f0; /* Color cyan del Excel */
+  --row-yellow: #fff9c4; /* Amarillo palido del Excel */
+  --text-main: #000000;
+  --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+.app-container {
+  padding: 20px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Zona de Carga */
+.upload-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed var(--header-blue);
+  background: var(--panel-bg);
+  padding: 80px 20px;
+  cursor: pointer;
+  margin: 60px auto;
+  max-width: 600px;
+  text-align: center;
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+.upload-zone:hover,
+.upload-zone.dragging {
+  background: #e0f2fe;
+  border-color: #0ea5e9;
+  transform: scale(1.02);
+}
+
+/* Dashboard / Contadores Superiores */
+.dashboard-top {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.stats-container {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+}
+
+.stat-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #999;
+  text-align: center;
+}
+
+.stat-header {
+  background: var(--header-blue);
+  color: white;
+  font-weight: 700;
+  padding: 6px 8px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #999;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  padding: 10px;
+  background: #e5e7eb;
+  color: #000;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Barra de Acciones y Escáner */
+.action-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.scan-input {
+  width: 350px;
+  padding: 10px 16px;
+  font-size: 1.2rem;
+  border: 2px solid var(--header-blue);
+  outline: none;
+  font-weight: 600;
+}
+.scan-input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 176, 240, 0.3);
+}
+.scan-input:disabled {
+  background: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.btn {
+  background: #f3f4f6;
+  border: 1px solid #999;
+  padding: 8px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+.btn:hover {
+  background: #e5e7eb;
+}
+
+/* Tabla Estilo Excel */
+.table-container {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #999;
+  max-height: calc(100vh - 250px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th {
+  background: var(--header-blue);
+  color: #000;
+  font-weight: 700;
+  padding: 6px 8px;
+  border: 1px solid #999;
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+td {
+  padding: 4px 8px;
+  border: 1px solid #999;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+tr {
+  background: var(--row-yellow);
+}
+
+tr:hover {
+  filter: brightness(0.95);
+}
+
+tr.status-ok {
+  background: #bbf7d0; /* Verde cuando está completo */
+}
+
+tr.status-error {
+  background: #fecaca; /* Rojo cuando hay exceso */
+}
+
+/* -------------------------------------
+   TOAST NOTIFICATION (No bloqueante) 
+-------------------------------------- */
+.toast-notification {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  animation: slideIn 0.2s ease-out;
+  z-index: 100;
+}
+.toast-notification.error { background: #ef4444; }
+.toast-notification.success { background: #22c55e; }
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* -------------------------------------
+   MODAL (General) 
+-------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(4px);
+}
+.modal-content {
+  background: white;
+  padding: 50px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  border: 5px solid #ef4444;
+  max-width: 650px;
+}
+
+/* Modal de Historial Específico */
+.history-modal {
+  border: 2px solid var(--header-blue);
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-table-container {
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  flex: 1;
+}
+
+.history-table-container th {
+  position: sticky;
+  top: 0;
+  background: var(--header-blue);
+}
